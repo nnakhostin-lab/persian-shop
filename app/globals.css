@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  direction: rtl;
+  background-color: #f7f3ea;
+  color: #12233b;
+}
+
+/* Signature element: an 8-point Persian star lattice, drawn purely in CSS
+   as a repeating background — echoes kashi (tilework) geometry without
+   using any external image asset. */
+.tile-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%2312A594' stroke-width='1' opacity='0.35'%3E%3Cpath d='M32 2 L42 12 L62 12 L52 22 L62 32 L52 42 L62 52 L42 52 L32 62 L22 52 L2 52 L12 42 L2 32 L12 22 L2 12 L22 12 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 64px 64px;
+}
+
+.gold-divider {
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    #c9962c 20%,
+    #c9962c 80%,
+    transparent
+  );
+  height: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --- شیشه‌ی مایع (liquid glass) برای نوار بالا --- */
+.glass-nav {
+  background: linear-gradient(
+    120deg,
+    rgba(247, 243, 234, 0.65),
+    rgba(247, 243, 234, 0.35)
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(18, 46, 74, 0.08);
+  box-shadow: 0 8px 32px rgba(11, 46, 74, 0.06);
+}
+
+.glass-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      120% 140% at 15% 0%,
+      rgba(255, 255, 255, 0.5),
+      transparent 55%
+    ),
+    radial-gradient(120% 140% at 85% 0%, rgba(18, 165, 148, 0.12), transparent 55%);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(18, 46, 74, 0.1);
+}
+
+/* --- انیمیشن ورود کارت‌ها --- */
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-card-in {
+  animation: card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* --- افکت درخشش (shine sweep) روی هاور کارت کالا --- */
+@keyframes shine-sweep {
+  from {
+    transform: translateX(-120%) skewX(-12deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-12deg);
+  }
+}
+
+.shine-on-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-on-hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 35%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  opacity: 0;
+}
+
+.shine-on-hover:hover::after {
+  opacity: 1;
+  animation: shine-sweep 0.9s ease;
+}
+
+/* --- پرش کوتاه آیکن سبد هنگام افزودن --- */
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.28);
+  }
+  60% {
+    transform: scale(0.94);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-bump {
+  animation: bump 0.4s ease;
+}
+
+/* --- اعلان شناور «به سبد اضافه شد» --- */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast {
+  animation: toast-in 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
